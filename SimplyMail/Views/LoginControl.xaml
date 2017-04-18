@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="SimplyMail.Views.LoginControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimplyMail.Views"
+             xmlns:vm="clr-namespace:SimplyMail.ViewModels"
+             xmlns:conv="clr-namespace:SimplyMail.Utils.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Background="White"
+             d:DataContext="{d:DesignInstance Type=vm:Login, IsDesignTimeCreatable=False}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="btvConverter"/>
+        <conv:NullToBooleanConverter x:Key="ntbConverter"/>
+    </UserControl.Resources>
+    <StackPanel>
+        <TextBlock Text="Login" FontSize="24"/>
+        <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="Email"/>
+                <TextBlock Text="Password"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <TextBox Text="{Binding Username}"/>
+                <PasswordBox x:Name="passBox"/>
+            </StackPanel>
+        </Grid>
+        
+        <Button Content="Login" Width="150" Margin="0,20,0,0"
+                Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=passBox}"/>
+
+        <TextBlock Margin="0,5,0,0" HorizontalAlignment="Center" DataContext="{Binding LoginTask}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ErrorMessage, Converter={StaticResource ntbConverter}}"
+                                     Value="False">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="Foreground" Value="Red"/>
+                            <Setter Property="Text" Value="{Binding ErrorMessage}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PrettyErrorMessage, Converter={StaticResource ntbConverter}}"
+                                     Value="False">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="Foreground" Value="Red"/>
+                            <Setter Property="Text" Value="{Binding PrettyErrorMessage}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsNotCompleted}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="Text" Value="Signing in..."/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </StackPanel>
+</UserControl>

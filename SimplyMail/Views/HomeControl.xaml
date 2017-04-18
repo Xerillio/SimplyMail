@@ -1,0 +1,119 @@
+﻿<UserControl x:Class="SimplyMail.Views.HomeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimplyMail.Views"
+             xmlns:vm="clr-namespace:SimplyMail.ViewModels"
+             xmlns:vmMail="clr-namespace:SimplyMail.ViewModels.Mail"
+             xmlns:conv="clr-namespace:SimplyMail.Utils.Converters"
+             xmlns:helpers="clr-namespace:SimplyMail.Utils.Helpers"
+             mc:Ignorable="d" 
+             d:DesignHeight="308" d:DesignWidth="541" Background="White"
+             d:DataContext="{d:DesignInstance Type=vm:Home, IsDesignTimeCreatable=False}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="btvConverter"/>
+        <conv:NullToBooleanConverter x:Key="ntbConverter"/>
+        <conv:AggregateValueConverter x:Key="invBtvConverter">
+            <conv:InverseBooleanConverter/>
+            <BooleanToVisibilityConverter/>
+        </conv:AggregateValueConverter>
+    </UserControl.Resources>
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Bottom" Foreground="Red" Text="{Binding ErrorMessage}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="150"/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition MinWidth="150"/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TreeView x:Name="folderTree" ItemsSource="{Binding FoldersTask.Result}">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type vmMail:MailFolder}" ItemsSource="{Binding SubFoldersTask.Result}">
+                        <TextBlock Text="{Binding Name}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+
+            <TextBlock DataContext="{Binding FoldersTask}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ErrorMessage, Converter={StaticResource ntbConverter}}"
+                                     Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="Text" Value="{Binding ErrorMessage}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding PrettyErrorMessage, Converter={StaticResource ntbConverter}}"
+                                     Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="Text" Value="{Binding PrettyErrorMessage}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsNotCompleted}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="Text" Value="Loading folders..."/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+
+            <ListBox x:Name="messagesList" Grid.Column="2"
+                     ItemsSource="{Binding ElementName=folderTree, Path=SelectedItem.MessagesTask.Result}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold" Text="{Binding From}"/>
+                            <TextBlock Text="{Binding Subject}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <TextBlock Grid.Column="2" DataContext="{Binding ElementName=folderTree, Path=SelectedItem.MessagesTask}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ErrorMessage, Converter={StaticResource ntbConverter}}"
+                                     Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="Text" Value="{Binding ErrorMessage}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding PrettyErrorMessage, Converter={StaticResource ntbConverter}}"
+                                     Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="Text" Value="{Binding PrettyErrorMessage}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsNotCompleted}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="Text" Value="Loading mails..."/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
+
+            <WebBrowser x:Name="messageBrowser" Grid.Column="4"
+                        DataContext="{Binding ElementName=messagesList, Path=SelectedItem}"
+                        helpers:WebBrowserHelper.HtmlString="{Binding Body}"
+                        Visibility="{Binding IsBodyHtml, Converter={StaticResource btvConverter}}"/>
+            <TextBlock Grid.Column="4" DataContext="{Binding ElementName=messagesList, Path=SelectedItem}"
+                       Text="{Binding Body}"
+                       Visibility="{Binding IsBodyHtml, Converter={StaticResource invBtvConverter}}"/>
+        </Grid>
+    </DockPanel>
+</UserControl>
