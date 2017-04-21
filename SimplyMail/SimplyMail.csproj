@@ -47,6 +47,10 @@
       <HintPath>..\packages\MimeKit.1.14.0\lib\net451\MimeKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Polly, Version=5.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.5.0.6\lib\net45\Polly.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Security" />
@@ -94,6 +98,7 @@
     <Compile Include="Utils\Immutables\Optional.cs" />
     <Compile Include="Utils\Input\AsyncCommandBase.cs" />
     <Compile Include="Utils\Input\IAsyncCommand.cs" />
+    <Compile Include="Utils\PolicyWrapper.cs" />
     <Compile Include="Utils\UnexpectedArgumentTypeException.cs" />
     <Compile Include="Utils\SafetyChecker.cs" />
     <Compile Include="Utils\Input\CommandBase.cs" />

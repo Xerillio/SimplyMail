@@ -23,9 +23,9 @@
         <TextBlock DockPanel.Dock="Bottom" Foreground="Red" Text="{Binding ErrorMessage}"/>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
+                <ColumnDefinition MinWidth="130" Width="150"/>
                 <ColumnDefinition Width="2"/>
-                <ColumnDefinition MinWidth="150"/>
+                <ColumnDefinition MinWidth="130" Width="150"/>
                 <ColumnDefinition Width="2"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>

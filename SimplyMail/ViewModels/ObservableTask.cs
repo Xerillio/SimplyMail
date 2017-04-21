@@ -13,7 +13,7 @@ namespace SimplyMail.ViewModels
     
     class ObservableTask : ObservableObject
     {
-        public Task Task { get; }
+        protected Task Task { get; }
         public TaskStatus Status => Task.Status;
         public bool IsCompleted => Task.IsCompleted;
         public bool IsNotCompleted => !IsCompleted;
@@ -30,14 +30,8 @@ namespace SimplyMail.ViewModels
             set { _prettyErrorMessage = value; OnPropertyChanged("PrettyErrorMessage"); }
         }
 
-        public ObservableTask(Task task)
-        {
-            Task = task;
-            if (!task.IsCompleted)
-            {
-                var _ = WatchTaskAsync(task);
-            }
-        }
+        public ObservableTask(Task task) : this(task, null)
+        { }
 
         public ObservableTask(Task task, Func<AggregateException, string> exceptionPrettifier)
         {
@@ -57,7 +51,11 @@ namespace SimplyMail.ViewModels
             catch
             {
             }
+            OnTaskCompleted(task, exceptionPrettifier);
+        }
 
+        protected virtual void OnTaskCompleted(Task task, Func<AggregateException, string> exceptionPrettifier = null)
+        {
             // Notify task has completed
             OnPropertyChanged("Status");
             OnPropertyChanged("IsCompleted");
@@ -85,61 +83,20 @@ namespace SimplyMail.ViewModels
 
     class ObservableTask<T> : ObservableTask
     {
-        public new Task<T> Task { get; private set; }
-        public T Result => IsSuccessfullyCompleted ? Task.Result : default(T);
+        public T Result => IsSuccessfullyCompleted ? (Task as Task<T>).Result : default(T);
 
-        public ObservableTask(Task<T> task) : base(task)
-        {
-            Task = task;
-            if (!task.IsCompleted)
-            {
-                var _ = WatchTaskAsync(task);
-            }
-        }
+        public ObservableTask(Task<T> task) : this(task, null)
+        { }
 
         public ObservableTask(Task<T> task, Func<AggregateException, string> exceptionPrettifier)
             : base(task, exceptionPrettifier)
+        { }
+
+        protected override void OnTaskCompleted(Task task, Func<AggregateException, string> exceptionPrettifier = null)
         {
-            Task = task;
-            if (!task.IsCompleted)
-            {
-                var _ = WatchTaskAsync(task);
-            }
-        }
-
-        private async Task WatchTaskAsync(Task task, Func<AggregateException, string> exceptionPrettifier = null)
-        {
-            try
-            {
-                await task;
-            }
-            catch
-            {
-            }
-
-            // Notify task has completed
-            OnPropertyChanged("Status");
-            OnPropertyChanged("IsCompleted");
-            OnPropertyChanged("IsNotCompleted");
-
-            if (task.IsCanceled)
-            {
-                OnPropertyChanged("IsCanceled");
-            }
-            else if (task.IsFaulted)
-            {
-                OnPropertyChanged("IsFaulted");
-                OnPropertyChanged("Exception");
-                OnPropertyChanged("InnerException");
-                OnPropertyChanged("ErrorMessage");
-                if (exceptionPrettifier != null)
-                    PrettyErrorMessage = exceptionPrettifier(Exception);
-            }
-            else
-            {
-                OnPropertyChanged("IsSuccessfullyCompleted");
+            base.OnTaskCompleted(task, exceptionPrettifier);
+            if (IsSuccessfullyCompleted)
                 OnPropertyChanged("Result");
-            }
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SimplyMail.Models;
-using SimplyMail.Utils.Immutables;
 using SimplyMail.ViewModels.Mail;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ namespace SimplyMail.ViewModels
             var folderCol = new ObservableCollection<MailFolder>();
             var folders = await _service.GetFolders().ConfigureAwait(false);
             foreach (var folder in folders)
-                folderCol.Add(new MailFolder(folder));
+                folderCol.Add(new MailFolder(folder, _service));
             return folderCol;
         }
     }
