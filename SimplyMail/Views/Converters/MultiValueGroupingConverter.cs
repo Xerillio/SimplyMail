@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace SimplyMail.Utils.Converters
+namespace SimplyMail.Views.Converters
 {
     class MultiValueGroupingConverter : IMultiValueConverter
     {

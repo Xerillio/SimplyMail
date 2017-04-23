@@ -1,4 +1,4 @@
-﻿using SimplyMail.Utils.Input;
+﻿using SimplyMail.ViewModels.Input;
 using SimplyMail.ViewModels.Mail;
 using SimplyMail.Views.Middleware;
 using System;

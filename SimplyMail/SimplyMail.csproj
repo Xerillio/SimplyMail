@@ -72,7 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Utils\Converters\MultiValueGroupingConverter.cs" />
+    <Compile Include="Views\Converters\MultiValueGroupingConverter.cs" />
     <Compile Include="Views\Middleware\ICompletable.cs" />
     <Compile Include="Views\PopupWindow.xaml.cs">
       <DependentUpon>PopupWindow.xaml</DependentUpon>
@@ -96,19 +96,19 @@
     <Compile Include="Models\ImapService.cs" />
     <Compile Include="Views\Middleware\IWindowFactory.cs" />
     <Compile Include="Views\Middleware\WindowFactory.cs" />
-    <Compile Include="Utils\Converters\AggregateValueConverter.cs" />
-    <Compile Include="Utils\Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Utils\Converters\NullToBooleanConverter.cs" />
-    <Compile Include="Utils\Helpers\WebBrowserHelper.cs" />
+    <Compile Include="Views\Converters\AggregateValueConverter.cs" />
+    <Compile Include="Views\Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Views\Converters\NullToBooleanConverter.cs" />
+    <Compile Include="Views\Helpers\WebBrowserHelper.cs" />
     <Compile Include="Utils\Immutables\Either.cs" />
     <Compile Include="Utils\Immutables\AsyncOptional.cs" />
     <Compile Include="Utils\Immutables\Optional.cs" />
-    <Compile Include="Utils\Input\AsyncCommandBase.cs" />
-    <Compile Include="Utils\Input\IAsyncCommand.cs" />
+    <Compile Include="ViewModels\Input\AsyncCommandBase.cs" />
+    <Compile Include="ViewModels\Input\IAsyncCommand.cs" />
     <Compile Include="Models\PolicyWrapper.cs" />
     <Compile Include="Utils\UnexpectedArgumentTypeException.cs" />
     <Compile Include="Utils\SafetyChecker.cs" />
-    <Compile Include="Utils\Input\CommandBase.cs" />
+    <Compile Include="ViewModels\Input\CommandBase.cs" />
     <Compile Include="Utils\Immutables\Error.cs" />
     <Compile Include="ViewModels\Home.cs" />
     <Compile Include="ViewModels\Login.cs" />

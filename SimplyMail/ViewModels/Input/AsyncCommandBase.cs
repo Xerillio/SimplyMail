@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplyMail.Utils.Input
+namespace SimplyMail.ViewModels.Input
 {
     class AsyncCommandBase : IAsyncCommand
     {

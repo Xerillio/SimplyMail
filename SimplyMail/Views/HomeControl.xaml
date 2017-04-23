@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:SimplyMail.Views"
              xmlns:vm="clr-namespace:SimplyMail.ViewModels"
              xmlns:vmMail="clr-namespace:SimplyMail.ViewModels.Mail"
-             xmlns:conv="clr-namespace:SimplyMail.Utils.Converters"
-             xmlns:helpers="clr-namespace:SimplyMail.Utils.Helpers"
+             xmlns:conv="clr-namespace:SimplyMail.Views.Converters"
+             xmlns:helpers="clr-namespace:SimplyMail.Views.Helpers"
              mc:Ignorable="d" 
              d:DesignHeight="308" d:DesignWidth="541" Background="White"
              d:DataContext="{d:DesignInstance Type=vm:Home, IsDesignTimeCreatable=False}">

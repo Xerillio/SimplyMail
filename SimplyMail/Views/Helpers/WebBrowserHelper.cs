@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SimplyMail.Utils.Helpers
+namespace SimplyMail.Views.Helpers
 {
     class WebBrowserHelper
     {
