@@ -1,33 +1,38 @@
-﻿using SimplyMail.Models;
+﻿using SimplyMail.Utils.Input;
 using SimplyMail.ViewModels.Mail;
+using SimplyMail.Views.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SimplyMail.ViewModels
 {
     class Home : ObservableObject
     {
-        ImapService _service;
-        
-        public ObservableTask<ObservableCollection<MailFolder>> FoldersTask { get; }
+        IWindowFactory _windowFactory;
 
-        public Home(ImapService service)
+        ObservableCollection<MailAccount> _mailAccounts = new ObservableCollection<MailAccount>();
+        public ObservableCollection<MailAccount> MailAccounts => _mailAccounts;
+
+        public ICommand AddAccountCommand => new CommandBase(OnAddAccount);
+
+        public Home(IWindowFactory windowFactory)
         {
-            _service = service;
-            FoldersTask = new ObservableTask<ObservableCollection<MailFolder>>(GetFolders());
+            _windowFactory = windowFactory;
         }
 
-        async Task<ObservableCollection<MailFolder>> GetFolders()
+        private void OnAddAccount(object obj)
         {
-            var folderCol = new ObservableCollection<MailFolder>();
-            var folders = await _service.GetFolders().ConfigureAwait(false);
-            foreach (var folder in folders)
-                folderCol.Add(new MailFolder(folder, _service));
-            return folderCol;
+            var loginVm = new Login();
+            loginVm.LoginSucceeded += (s, acc) =>
+            {
+                MailAccounts.Add(acc);
+            };
+            _windowFactory.CreateWindow(loginVm);
         }
     }
 }

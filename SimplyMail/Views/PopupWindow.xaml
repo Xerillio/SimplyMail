@@ -1,27 +1,22 @@
-﻿<Window x:Class="SimplyMail.Views.MainWindow"
+﻿<Window x:Class="SimplyMail.Views.PopupWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimplyMail.Views"
         xmlns:sel="clr-namespace:SimplyMail.Views.Selectors"
-        xmlns:vm="clr-namespace:SimplyMail.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="473" Width="749">
+        Title="PopupWindow" Height="300" Width="300">
     <Window.Resources>
-        <DataTemplate x:Key="homeTemplate">
-            <local:HomeControl/>
-        </DataTemplate>
         <DataTemplate x:Key="loginTemplate">
             <local:LoginControl/>
         </DataTemplate>
         <sel:ContentTemplateSelector
             x:Key="contentSelector"
-            HomeTemplate="{StaticResource homeTemplate}"
             LoginTemplate="{StaticResource loginTemplate}"/>
     </Window.Resources>
     <Grid>
         <ContentControl ContentTemplateSelector="{StaticResource contentSelector}"
-                        Content="{Binding MainContent}"/>
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"/>
     </Grid>
 </Window>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SimplyMail.Views
+namespace SimplyMail.Views.Selectors
 {
     class ContentTemplateSelector : DataTemplateSelector
     {

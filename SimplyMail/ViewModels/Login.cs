@@ -1,6 +1,8 @@
 ﻿using SimplyMail.Models;
 using SimplyMail.Utils;
 using SimplyMail.Utils.Input;
+using SimplyMail.ViewModels.Mail;
+using SimplyMail.Views.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,8 @@ namespace SimplyMail.ViewModels
 {
     class Login : ObservableObject
     {
+        public event EventHandler<MailAccount> LoginSucceeded;
+
         public string Username { get; set; }
 
         ObservableTask _loginTask;
@@ -34,14 +38,17 @@ namespace SimplyMail.ViewModels
 
         private async Task OnLogin(object obj)
         {
-            var pwBox = SafetyChecker.RequireArgumentType<PasswordBox>(obj, "obj");
+            var objs = SafetyChecker.RequireArgumentType<object[]>(obj, "obj");
+            var pwBox = SafetyChecker.RequireNonNull(objs[0] as PasswordBox);
+
             // TODO check if username and password has been filled
             var service = new ImapService();
+            string email = Username,
+                password = pwBox.Password;
 
             // TODO only for quick test
-            if (string.IsNullOrWhiteSpace(Username) && string.IsNullOrWhiteSpace(pwBox.Password))
+            if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(password))
             {
-                string username = "", password = "";
                 try
                 {
                     var lines = System.IO.File.ReadAllLines(System.IO.Path.Combine(
@@ -52,8 +59,8 @@ namespace SimplyMail.ViewModels
                         var splits = line.Split('=');
                         switch (splits[0].ToLower())
                         {
-                            case "username":
-                                username = splits[1];
+                            case "email":
+                                email = splits[1];
                                 break;
                             case "password":
                                 password = splits[1];
@@ -64,14 +71,16 @@ namespace SimplyMail.ViewModels
                     }
                 }
                 catch { }
-                await service.LoginAsync(username, password).ConfigureAwait(false);
-            }
-            else
-            {
-                await service.LoginAsync(Username, pwBox.Password).ConfigureAwait(false);
             }
 
-            Main.CurrentInstance.MainContent = new Home(service);
+            await service.LoginAsync(email, password);
+
+            LoginSucceeded?.Invoke(this, new MailAccount(email, service));
+            if (objs.Length > 1)
+            {
+                var completable = SafetyChecker.RequireNonNull(objs[1] as ICompletable);
+                completable.OnCompleted();
+            }
         }
 
         private string OnLoginFailed(AggregateException ex)

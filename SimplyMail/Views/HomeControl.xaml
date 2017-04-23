@@ -20,6 +20,11 @@
         </conv:AggregateValueConverter>
     </UserControl.Resources>
     <DockPanel>
+        <Menu IsMainMenu="True" DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="Add Account..." Command="{Binding AddAccountCommand}"/>
+            </MenuItem>
+        </Menu>
         <TextBlock DockPanel.Dock="Bottom" Foreground="Red" Text="{Binding ErrorMessage}"/>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -30,17 +35,20 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TreeView x:Name="folderTree" ItemsSource="{Binding FoldersTask.Result}">
+            <TreeView x:Name="folderTree" ItemsSource="{Binding MailAccounts}">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type vmMail:MailAccount}" ItemsSource="{Binding FoldersTask.Result}">
+                        <TextBlock Text="{Binding Email}"/>
+                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type vmMail:MailFolder}" ItemsSource="{Binding SubFoldersTask.Result}">
+                        <TextBlock Text="{Binding Name}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type vmMail:MailFolder}" ItemsSource="{Binding SubFoldersTask.Result}">
-                        <TextBlock Text="{Binding Name}"/>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
             </TreeView>
 
             <TextBlock DataContext="{Binding FoldersTask}">

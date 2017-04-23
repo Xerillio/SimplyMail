@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplyMail.Utils
+namespace SimplyMail.Models
 {
     static class PolicyWrapper
     {

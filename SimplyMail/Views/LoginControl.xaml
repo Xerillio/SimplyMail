@@ -12,6 +12,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="btvConverter"/>
         <conv:NullToBooleanConverter x:Key="ntbConverter"/>
+        <conv:MultiValueGroupingConverter x:Key="mvgConverter"/>
     </UserControl.Resources>
     <StackPanel>
         <TextBlock Text="Login" FontSize="24"/>
@@ -29,9 +30,16 @@
                 <PasswordBox x:Name="passBox"/>
             </StackPanel>
         </Grid>
-        
+
         <Button Content="Login" Width="150" Margin="0,20,0,0"
-                Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=passBox}"/>
+                Command="{Binding LoginCommand}">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource mvgConverter}">
+                    <Binding ElementName="passBox"/>
+                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Window}}"/>
+                </MultiBinding>
+            </Button.CommandParameter>
+        </Button>
 
         <TextBlock Margin="0,5,0,0" HorizontalAlignment="Center" DataContext="{Binding LoginTask}">
             <TextBlock.Style>

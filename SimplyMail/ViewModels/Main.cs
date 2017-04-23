@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimplyMail.Views.Middleware;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,7 +37,7 @@ namespace SimplyMail.ViewModels
 
         Main()
         {
-            MainContent = new Login();
+            MainContent = new Home(new WindowFactory());
         }
     }
 }
