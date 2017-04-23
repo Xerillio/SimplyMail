@@ -143,5 +143,13 @@ namespace SimplyMail.Utils.Immutables
             else
                 return HasValue == other.HasValue;
         }
+
+        public override int GetHashCode()
+        {
+            int hash = HasValue.GetHashCode();
+            if (HasValue)
+                hash = hash * 17 + Value.GetHashCode();
+            return hash;
+        }
     }
 }
