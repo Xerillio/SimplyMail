@@ -14,18 +14,15 @@ namespace SimplyMail.ViewModels.Mail
 {
     class MailFolder : ObservableObject
     {
+        public static event EventHandler FolderSelected;
+
+        static CancellationTokenSource _messagesTaskCts;
+
         IMailFolder _sourceFolder;
         ImapService _service;
         
         public ObservableTask<ObservableCollection<MailFolder>> SubFoldersTask { get; }
 
-        static CancellationTokenSource _messagesTaskCts;
-        ObservableTask<ObservableCollection<MailMessage>> _messagesTask;
-        public ObservableTask<ObservableCollection<MailMessage>> MessagesTask
-        {
-            get { return _messagesTask; }
-            set { _messagesTask = value; OnPropertyChanged("MessagesTask"); }
-        }
         public string Name => _sourceFolder.Name;
 
         bool _isSelected;
@@ -35,7 +32,7 @@ namespace SimplyMail.ViewModels.Mail
             set
             {
                 _isSelected = value;
-                OnSelected(value);
+                FolderSelected?.Invoke(this, new EventArgs());
                 OnPropertyChanged("IsSelected");
             }
         }
@@ -47,13 +44,6 @@ namespace SimplyMail.ViewModels.Mail
             SubFoldersTask = new ObservableTask<ObservableCollection<MailFolder>>(GetSubFolders());
         }
 
-        void OnSelected(bool selected)
-        {
-            if (!selected || MessagesTask?.IsSuccessfullyCompleted == true)
-                return;
-            MessagesTask = new ObservableTask<ObservableCollection<MailMessage>>(GetMessages());
-        }
-
         async Task<ObservableCollection<MailFolder>> GetSubFolders()
         {
             var foldersCol = new ObservableCollection<MailFolder>();
@@ -63,7 +53,7 @@ namespace SimplyMail.ViewModels.Mail
             return foldersCol;
         }
 
-        async Task<ObservableCollection<MailMessage>> GetMessages()
+        public async Task<ObservableCollection<MailMessage>> GetMessages()
         {
             try { _messagesTaskCts?.Cancel(); }
             catch (ObjectDisposedException) { /* The implicated task already finished */ }

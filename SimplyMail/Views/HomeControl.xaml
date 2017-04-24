@@ -78,7 +78,7 @@
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
 
             <ListBox x:Name="messagesList" Grid.Column="2"
-                     ItemsSource="{Binding ElementName=folderTree, Path=SelectedItem.MessagesTask.Result}">
+                     ItemsSource="{Binding CurrentFolderMessagesTask.Result}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -89,7 +89,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <TextBlock Grid.Column="2" DataContext="{Binding ElementName=folderTree, Path=SelectedItem.MessagesTask}">
+            <TextBlock Grid.Column="2" DataContext="{Binding CurrentFolderMessagesTask}">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="Visibility" Value="Collapsed"/>
