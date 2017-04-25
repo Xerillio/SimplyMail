@@ -1,6 +1,8 @@
-﻿//
-// File: ICompletable.cs
-// Author: Casper Sørensen
+﻿extensions: designer.cs generated.cs
+extensions: .cs .cpp .h
+//
+// File: %FileName%
+// Author: %UserDisplayName%
 //
 //   Copyright 2017 Casper Sørensen
 //	 
@@ -16,16 +18,4 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimplyMail.Views.Middleware
-{
-    interface ICompletable
-    {
-        void OnCompleted();
-    }
-}
+extensions:  .xml .config .xsd
