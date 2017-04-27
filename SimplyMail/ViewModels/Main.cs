@@ -16,7 +16,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
-using SimplyMail.Views.Middleware;
+using SimplyMail.ViewModels.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ using System.Windows;
 
 namespace SimplyMail.ViewModels
 {
-    class Main : ObservableObject
+    public class Main : ObservableObject
     {
         static Main _currentInstance;
         public static Main CurrentInstance
@@ -53,9 +53,9 @@ namespace SimplyMail.ViewModels
             }
         }
 
-        Main()
+        public Main()
         {
-            MainContent = new Home(new WindowFactory());
+            MainContent = new Home();
         }
     }
 }

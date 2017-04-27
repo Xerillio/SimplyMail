@@ -1,5 +1,5 @@
 ﻿//
-// File: AggregateValueConverter.cs
+// File: WindowFactory.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -16,26 +16,30 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+using SimplyMail.ViewModels;
+using SimplyMail.ViewModels.Middleware;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
+using System.Windows;
 
-namespace SimplyMail.Views.Converters
+namespace SimplyMail.WPF.Views.Middleware
 {
-    class AggregateValueConverter : List<IValueConverter>, IValueConverter
+    class WindowFactory : IWindowFactory
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public void CreateWindow<T>(T windowViewModel)
         {
-            return this.Aggregate(value, (current, converter) => converter.Convert(current, targetType, parameter, culture));
-        }
+            Window window = null;
+            if (windowViewModel is Login)
+                window = new PopupWindow();
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
+            if (window != null)
+            {
+                window.DataContext = windowViewModel;
+                window.ShowDialog();
+            }
         }
     }
 }

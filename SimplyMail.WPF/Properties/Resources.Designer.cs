@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SimplyMail.Properties {
+namespace SimplyMail.WPF.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SimplyMail.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimplyMail.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimplyMail.WPF.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace SimplyMail.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The username or password is incorrect.
         /// </summary>
-        internal static string InvalidCredentials {
+        internal static string InvalidCredentialsMessage {
             get {
-                return ResourceManager.GetString("InvalidCredentials", resourceCulture);
+                return ResourceManager.GetString("InvalidCredentialsMessage", resourceCulture);
             }
         }
     }

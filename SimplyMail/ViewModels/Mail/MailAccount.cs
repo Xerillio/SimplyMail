@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 
 namespace SimplyMail.ViewModels.Mail
 {
-    class MailAccount
+    public class MailAccount
     {
         ImapService _service;
 

@@ -19,7 +19,7 @@
 using SimplyMail.Utils;
 using SimplyMail.ViewModels.Input;
 using SimplyMail.ViewModels.Mail;
-using SimplyMail.Views.Middleware;
+using SimplyMail.ViewModels.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,10 +30,8 @@ using System.Windows.Input;
 
 namespace SimplyMail.ViewModels
 {
-    class Home : ObservableObject
+    public class Home : ObservableObject
     {
-        IWindowFactory _windowFactory;
-
         ObservableCollection<MailAccount> _mailAccounts = new ObservableCollection<MailAccount>();
         public ObservableCollection<MailAccount> MailAccounts => _mailAccounts;
 
@@ -46,9 +44,8 @@ namespace SimplyMail.ViewModels
 
         public ICommand AddAccountCommand => new CommandBase(OnAddAccount);
 
-        public Home(IWindowFactory windowFactory)
+        public Home()
         {
-            _windowFactory = windowFactory;
             MailFolder.FolderSelected += MailFolder_FolderSelected;
         }
 
@@ -59,7 +56,7 @@ namespace SimplyMail.ViewModels
             {
                 MailAccounts.Add(acc);
             };
-            _windowFactory.CreateWindow(loginVm);
+            IoC.Instance.WindowFactory?.CreateWindow(loginVm);
         }
 
         private void MailFolder_FolderSelected(object sender, EventArgs e)

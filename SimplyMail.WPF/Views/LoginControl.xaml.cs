@@ -1,5 +1,5 @@
 ﻿//
-// File: PopupWindow.xaml.cs
+// File: LoginControl.xaml.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -16,7 +16,6 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
-using SimplyMail.Views.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,23 +28,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SimplyMail.Views
+namespace SimplyMail.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for PopupWindow.xaml
+    /// Interaction logic for LoginControl.xaml
     /// </summary>
-    public partial class PopupWindow : Window, ICompletable
+    public partial class LoginControl : UserControl
     {
-        public PopupWindow()
+        public LoginControl()
         {
             InitializeComponent();
-        }
-
-        public void OnCompleted()
-        {
-            Close();
         }
     }
 }

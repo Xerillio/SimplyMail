@@ -1,5 +1,5 @@
 ﻿//
-// File: InverseBooleanConverter.cs
+// File: IoC.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -18,26 +18,29 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
 
-namespace SimplyMail.Views.Converters
+namespace SimplyMail.ViewModels.Middleware
 {
-    class InverseBooleanConverter : IValueConverter
+    public class IoC
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        private static IoC _instance;
+        public static IoC Instance
         {
-            if (!(value is bool))
-                throw new InvalidOperationException("'value' not of type 'bool'");
-            return !(bool)value;
+            get
+            {
+                if (_instance == null)
+                    _instance = new IoC();
+                return _instance;
+            }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public IResources Resources { get; set; }
+        public IWindowFactory WindowFactory { get; set; }
+
+        IoC()
+        { }
     }
 }

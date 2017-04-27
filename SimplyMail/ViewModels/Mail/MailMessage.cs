@@ -25,7 +25,7 @@ using MimeKit;
 
 namespace SimplyMail.ViewModels.Mail
 {
-    class MailMessage
+    public class MailMessage
     {
         MimeMessage _sourceMessage;
 

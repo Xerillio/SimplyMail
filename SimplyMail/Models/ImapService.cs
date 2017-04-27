@@ -32,7 +32,7 @@ using System.Threading.Tasks;
 
 namespace SimplyMail.Models
 {
-    class ImapService
+    public class ImapService
     {
         ImapClient Client { get; set; }
 

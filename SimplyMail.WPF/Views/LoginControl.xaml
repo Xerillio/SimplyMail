@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="SimplyMail.Views.LoginControl"
+﻿<UserControl x:Class="SimplyMail.WPF.Views.LoginControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SimplyMail.Views"
-             xmlns:vm="clr-namespace:SimplyMail.ViewModels"
-             xmlns:conv="clr-namespace:SimplyMail.Views.Converters"
+             xmlns:local="clr-namespace:SimplyMail.WPF.Views"
+             xmlns:conv="clr-namespace:SimplyMail.WPF.Views.Converters"
+             xmlns:vm="clr-namespace:SimplyMail.ViewModels;assembly=SimplyMail"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Background="White"
              d:DataContext="{d:DesignInstance Type=vm:Login, IsDesignTimeCreatable=False}">
@@ -35,7 +35,7 @@
                 Command="{Binding LoginCommand}">
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource mvgConverter}">
-                    <Binding ElementName="passBox"/>
+                    <Binding ElementName="passBox" Path="Password"/>
                     <Binding RelativeSource="{RelativeSource AncestorType={x:Type Window}}"/>
                 </MultiBinding>
             </Button.CommandParameter>

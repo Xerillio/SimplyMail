@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SimplyMail.Views.Helpers
+namespace SimplyMail.WPF.Views.Helpers
 {
     class WebBrowserHelper
     {

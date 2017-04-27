@@ -20,18 +20,17 @@ using SimplyMail.Models;
 using SimplyMail.Utils;
 using SimplyMail.ViewModels.Input;
 using SimplyMail.ViewModels.Mail;
-using SimplyMail.Views.Middleware;
+using SimplyMail.ViewModels.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace SimplyMail.ViewModels
 {
-    class Login : ObservableObject
+    public class Login : ObservableObject
     {
         public event EventHandler<MailAccount> LoginSucceeded;
 
@@ -57,12 +56,10 @@ namespace SimplyMail.ViewModels
         private async Task OnLogin(object obj)
         {
             var objs = SafetyChecker.RequireArgumentType<object[]>(obj, "obj");
-            var pwBox = SafetyChecker.RequireNonNull(objs[0] as PasswordBox);
 
             // TODO check if username and password has been filled
-            var service = new ImapService();
             string email = Username,
-                password = pwBox.Password;
+                password = SafetyChecker.RequireNonNull(objs[0] as string);
 
             // TODO only for quick test
             if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(password))
@@ -91,6 +88,7 @@ namespace SimplyMail.ViewModels
                 catch { }
             }
 
+            var service = new ImapService();
             await service.LoginAsync(email, password);
 
             LoginSucceeded?.Invoke(this, new MailAccount(email, service));
@@ -106,7 +104,7 @@ namespace SimplyMail.ViewModels
             foreach (var exception in ex.InnerExceptions)
             {
                 if (exception is MailKit.Security.AuthenticationException)
-                    return Properties.Resources.InvalidCredentials;
+                    return IoC.Instance.Resources?.InvalidCredentialsMessage;
             }
             return null;
         }

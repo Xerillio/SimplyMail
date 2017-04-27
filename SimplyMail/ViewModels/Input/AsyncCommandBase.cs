@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 
 namespace SimplyMail.ViewModels.Input
 {
-    class AsyncCommandBase : IAsyncCommand
+    public class AsyncCommandBase : IAsyncCommand
     {
 #pragma warning disable CS0067
         public event EventHandler CanExecuteChanged;

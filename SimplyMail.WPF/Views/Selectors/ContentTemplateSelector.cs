@@ -1,5 +1,5 @@
 ﻿//
-// File: MainWindow.xaml.cs
+// File: ContentTemplateSelector.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -24,24 +24,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace SimplyMail.Views
+namespace SimplyMail.WPF.Views.Selectors
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    class ContentTemplateSelector : DataTemplateSelector
     {
-        public MainWindow()
+        public DataTemplate HomeTemplate { get; set; }
+        public DataTemplate LoginTemplate { get; set; }
+
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            InitializeComponent();
-            DataContext = Main.CurrentInstance;
+            DataTemplate template = null;
+
+            if (item is Home)
+                template = HomeTemplate;
+            else if (item is Login)
+                template = LoginTemplate;
+            
+            return template ?? base.SelectTemplate(item, container);
         }
     }
 }

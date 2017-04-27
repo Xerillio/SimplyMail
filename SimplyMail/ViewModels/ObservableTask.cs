@@ -29,7 +29,7 @@ namespace SimplyMail.ViewModels
     /// </summary>
     /// <typeparam name="T"></typeparam>
     
-    class ObservableTask : ObservableObject
+    public class ObservableTask : ObservableObject
     {
         protected Task Task { get; }
         public TaskStatus Status => Task.Status;
@@ -99,7 +99,7 @@ namespace SimplyMail.ViewModels
         }
     }
 
-    class ObservableTask<T> : ObservableTask
+    public class ObservableTask<T> : ObservableTask
     {
         public T Result => IsSuccessfullyCompleted ? (Task as Task<T>).Result : default(T);
 

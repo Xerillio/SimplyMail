@@ -1,5 +1,5 @@
 ﻿//
-// File: IWindowFactory.cs
+// File: IResources.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -22,10 +22,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplyMail.Views.Middleware
+namespace SimplyMail.ViewModels.Middleware
 {
-    interface IWindowFactory
+    public interface IResources
     {
-        void CreateWindow<T>(T windowViewModel);
+        string InvalidCredentialsMessage { get; }
     }
 }

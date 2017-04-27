@@ -1,5 +1,5 @@
 ﻿//
-// File: WindowFactory.cs
+// File: NullToBooleanConverter.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -16,30 +16,26 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
-using SimplyMail.ViewModels;
-using SimplyMail.Views;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Data;
 
-namespace SimplyMail.Views.Middleware
+namespace SimplyMail.WPF.Views.Converters
 {
-    class WindowFactory : IWindowFactory
+    class NullToBooleanConverter : IValueConverter
     {
-        public void CreateWindow<T>(T windowViewModel)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Window window = null;
-            if (windowViewModel is Login)
-                window = new PopupWindow();
+            return value == null;
+        }
 
-            if (window != null)
-            {
-                window.DataContext = windowViewModel;
-                window.ShowDialog();
-            }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

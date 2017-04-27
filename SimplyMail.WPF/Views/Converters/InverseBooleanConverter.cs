@@ -1,5 +1,5 @@
 ﻿//
-// File: HomeControl.xaml.cs
+// File: InverseBooleanConverter.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -18,29 +18,26 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace SimplyMail.Views
+namespace SimplyMail.WPF.Views.Converters
 {
-    /// <summary>
-    /// Interaction logic for MainControl.xaml
-    /// </summary>
-    public partial class HomeControl : UserControl
+    class InverseBooleanConverter : IValueConverter
     {
-        public HomeControl()
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            InitializeComponent();
+            if (!(value is bool))
+                throw new InvalidOperationException("'value' not of type 'bool'");
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

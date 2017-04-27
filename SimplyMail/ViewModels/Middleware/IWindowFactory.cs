@@ -1,5 +1,5 @@
 ﻿//
-// File: MultiValueGroupingConverter.cs
+// File: IWindowFactory.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -18,24 +18,14 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
 
-namespace SimplyMail.Views.Converters
+namespace SimplyMail.ViewModels.Middleware
 {
-    class MultiValueGroupingConverter : IMultiValueConverter
+    public interface IWindowFactory
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            return values.Clone();
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        void CreateWindow<T>(T windowViewModel);
     }
 }

@@ -1,5 +1,5 @@
 ﻿//
-// File: ICompletable.cs
+// File: MainWindow.xaml.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -16,16 +16,31 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+using SimplyMail.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
-namespace SimplyMail.Views.Middleware
+namespace SimplyMail.WPF.Views
 {
-    interface ICompletable
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        void OnCompleted();
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
     }
 }

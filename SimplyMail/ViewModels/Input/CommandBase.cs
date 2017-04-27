@@ -25,7 +25,7 @@ using System.Windows.Input;
 
 namespace SimplyMail.ViewModels.Input
 {
-    class CommandBase : ICommand
+    public class CommandBase : ICommand
     {
 #pragma warning disable CS0067
         public event EventHandler CanExecuteChanged;

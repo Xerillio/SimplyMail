@@ -30,7 +30,7 @@ using System.Windows.Input;
 
 namespace SimplyMail.ViewModels.Mail
 {
-    class MailFolder : ObservableObject
+    public class MailFolder : ObservableObject
     {
         public static event EventHandler FolderSelected;
 

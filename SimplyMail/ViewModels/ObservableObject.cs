@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace SimplyMail.ViewModels
 {
-    class ObservableObject : INotifyPropertyChanged
+    public class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

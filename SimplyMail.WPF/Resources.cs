@@ -1,5 +1,5 @@
 ﻿//
-// File: IAsyncCommand.cs
+// File: Resources.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -16,17 +16,33 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+using SimplyMail.ViewModels.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
-namespace SimplyMail.ViewModels.Input
+namespace SimplyMail.WPF
 {
-    public interface IAsyncCommand : ICommand
+    class Resources : IResources
     {
-        Task ExecuteAsync(object parameter);
+        private static Resources _instance;
+        public static Resources Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new Resources();
+                return _instance;
+            }
+        }
+
+        public string InvalidCredentialsMessage =>
+            string.IsNullOrWhiteSpace(Properties.Resources.InvalidCredentialsMessage) ?
+            null : Properties.Resources.InvalidCredentialsMessage;
+
+        Resources()
+        { }
     }
 }

@@ -1,5 +1,5 @@
 ﻿//
-// File: IAsyncCommand.cs
+// File: App.xaml.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -16,17 +16,32 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+using SimplyMail.WPF.Views;
+using SimplyMail.WPF.Views.Middleware;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using System.Windows;
+using System.Windows.Navigation;
 
-namespace SimplyMail.ViewModels.Input
+namespace SimplyMail.WPF
 {
-    public interface IAsyncCommand : ICommand
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
     {
-        Task ExecuteAsync(object parameter);
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            
+            var ioc = ViewModels.Middleware.IoC.Instance;
+            ioc.Resources = SimplyMail.WPF.Resources.Instance;
+            ioc.WindowFactory = new WindowFactory();
+        }
+        
     }
 }
