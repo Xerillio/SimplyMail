@@ -16,6 +16,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace SimplyMail.ViewModels
     /// </summary>
     /// <typeparam name="T"></typeparam>
     
-    public class ObservableTask : ObservableObject
+    public class ObservableTask : ViewModelBase
     {
         protected Task Task { get; }
         public TaskStatus Status => Task.Status;
@@ -45,7 +46,7 @@ namespace SimplyMail.ViewModels
         public string PrettyErrorMessage
         {
             get { return _prettyErrorMessage; }
-            set { _prettyErrorMessage = value; OnPropertyChanged("PrettyErrorMessage"); }
+            set { _prettyErrorMessage = value; RaisePropertyChanged(); }
         }
 
         public ObservableTask(Task task) : this(task, null)
@@ -75,26 +76,26 @@ namespace SimplyMail.ViewModels
         protected virtual void OnTaskCompleted(Task task, Func<AggregateException, string> exceptionPrettifier = null)
         {
             // Notify task has completed
-            OnPropertyChanged("Status");
-            OnPropertyChanged("IsCompleted");
-            OnPropertyChanged("IsNotCompleted");
+            RaisePropertyChanged("Status");
+            RaisePropertyChanged("IsCompleted");
+            RaisePropertyChanged("IsNotCompleted");
 
             if (task.IsCanceled)
             {
-                OnPropertyChanged("IsCanceled");
+                RaisePropertyChanged("IsCanceled");
             }
             else if (task.IsFaulted)
             {
-                OnPropertyChanged("IsFaulted");
-                OnPropertyChanged("Exception");
-                OnPropertyChanged("InnerException");
-                OnPropertyChanged("ErrorMessage");
+                RaisePropertyChanged("IsFaulted");
+                RaisePropertyChanged("Exception");
+                RaisePropertyChanged("InnerException");
+                RaisePropertyChanged("ErrorMessage");
                 if (exceptionPrettifier != null)
                     PrettyErrorMessage = exceptionPrettifier(Exception);
             }
             else
             {
-                OnPropertyChanged("IsSuccessfullyCompleted");
+                RaisePropertyChanged("IsSuccessfullyCompleted");
             }
         }
     }
@@ -114,7 +115,7 @@ namespace SimplyMail.ViewModels
         {
             base.OnTaskCompleted(task, exceptionPrettifier);
             if (IsSuccessfullyCompleted)
-                OnPropertyChanged("Result");
+                RaisePropertyChanged("Result");
         }
     }
 }

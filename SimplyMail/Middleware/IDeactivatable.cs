@@ -1,5 +1,5 @@
 ﻿//
-// File: IResources.cs
+// File: IDeactivatable.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -22,10 +22,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplyMail.ViewModels.Middleware
+namespace SimplyMail.Middleware
 {
-    public interface IResources
+    public interface IDeactivatable
     {
-        string InvalidCredentialsMessage { get; }
+        void Deactivate();
     }
 }

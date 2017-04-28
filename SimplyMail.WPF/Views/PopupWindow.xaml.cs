@@ -16,7 +16,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
-using SimplyMail.ViewModels.Middleware;
+using SimplyMail.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,14 +36,19 @@ namespace SimplyMail.WPF.Views
     /// <summary>
     /// Interaction logic for PopupWindow.xaml
     /// </summary>
-    public partial class PopupWindow : Window, ICompletable
+    public partial class PopupWindow : Window, IToggleable
     {
         public PopupWindow()
         {
             InitializeComponent();
         }
 
-        public void OnCompleted()
+        void IActivatable.Activate()
+        {
+            ShowDialog();
+        }
+
+        public void Deactivate()
         {
             Close();
         }

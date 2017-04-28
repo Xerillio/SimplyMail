@@ -32,14 +32,8 @@
         </Grid>
 
         <Button Content="Login" Width="150" Margin="0,20,0,0"
-                Command="{Binding LoginCommand}">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource mvgConverter}">
-                    <Binding ElementName="passBox" Path="Password"/>
-                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Window}}"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
+                Command="{Binding LoginCommand}"
+                CommandParameter="{Binding ElementName=passBox, Path=Password}"/>
 
         <TextBlock Margin="0,5,0,0" HorizontalAlignment="Center" DataContext="{Binding LoginTask}">
             <TextBlock.Style>

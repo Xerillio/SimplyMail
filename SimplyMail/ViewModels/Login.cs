@@ -16,11 +16,13 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
+using SimplyMail.Middleware;
 using SimplyMail.Models;
 using SimplyMail.Utils;
-using SimplyMail.ViewModels.Input;
 using SimplyMail.ViewModels.Mail;
-using SimplyMail.ViewModels.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,36 +32,33 @@ using System.Windows.Input;
 
 namespace SimplyMail.ViewModels
 {
-    public class Login : ObservableObject
+    public class Login : ViewModelBase
     {
         public event EventHandler<MailAccount> LoginSucceeded;
 
-        public string Username { get; set; }
+        public string Email { get; set; }
 
         ObservableTask _loginTask;
         public ObservableTask LoginTask
         {
             get { return _loginTask; }
-            set { _loginTask = value;  OnPropertyChanged("LoginTask"); }
+            set { _loginTask = value; RaisePropertyChanged(); }
         }
 
         public ICommand LoginCommand
         {
             get
             {
-                return new CommandBase(obj =>
-                    LoginTask = new ObservableTask(OnLogin(obj), OnLoginFailed)
+                return new RelayCommand<string>(pwd =>
+                    LoginTask = new ObservableTask(OnLogin(pwd), OnLoginFailed)
                 );
             }
         }
 
-        private async Task OnLogin(object obj)
+        private async Task OnLogin(string password)
         {
-            var objs = SafetyChecker.RequireArgumentType<object[]>(obj, "obj");
-
             // TODO check if username and password has been filled
-            string email = Username,
-                password = SafetyChecker.RequireNonNull(objs[0] as string);
+            string email = Email;
 
             // TODO only for quick test
             if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(password))
@@ -92,19 +91,16 @@ namespace SimplyMail.ViewModels
             await service.LoginAsync(email, password);
 
             LoginSucceeded?.Invoke(this, new MailAccount(email, service));
-            if (objs.Length > 1)
-            {
-                var completable = SafetyChecker.RequireNonNull(objs[1] as ICompletable);
-                completable.OnCompleted();
-            }
         }
 
         private string OnLoginFailed(AggregateException ex)
         {
+            if (!SimpleIoc.Default.IsRegistered<IResources>())
+                return null;
             foreach (var exception in ex.InnerExceptions)
             {
                 if (exception is MailKit.Security.AuthenticationException)
-                    return IoC.Instance.Resources?.InvalidCredentialsMessage;
+                    return SimpleIoc.Default.GetInstance<IResources>()?.InvalidCredentialsMessage;
             }
             return null;
         }

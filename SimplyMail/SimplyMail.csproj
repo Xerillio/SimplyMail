@@ -34,8 +34,24 @@
       <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MailKit, Version=1.16.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\packages\MailKit.1.16.0\lib\net451\MailKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MimeKit, Version=1.16.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
@@ -49,6 +65,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,33 +77,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Middleware\IActivatable.cs" />
+    <Compile Include="Middleware\IDeactivatable.cs" />
+    <Compile Include="Middleware\IToggleable.cs" />
     <Compile Include="Models\ImapService.cs" />
     <Compile Include="Models\PolicyWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Immutables\AsyncOptional.cs" />
-    <Compile Include="Utils\Immutables\Either.cs" />
-    <Compile Include="Utils\Immutables\Error.cs" />
-    <Compile Include="Utils\Immutables\Optional.cs" />
     <Compile Include="Utils\SafetyChecker.cs" />
     <Compile Include="Utils\UnexpectedArgumentTypeException.cs" />
     <Compile Include="ViewModels\Home.cs" />
-    <Compile Include="ViewModels\Input\AsyncCommandBase.cs" />
-    <Compile Include="ViewModels\Input\CommandBase.cs" />
-    <Compile Include="ViewModels\Input\IAsyncCommand.cs" />
     <Compile Include="ViewModels\Login.cs" />
     <Compile Include="ViewModels\Mail\MailAccount.cs" />
     <Compile Include="ViewModels\Mail\MailFolder.cs" />
     <Compile Include="ViewModels\Mail\MailMessage.cs" />
     <Compile Include="ViewModels\Main.cs" />
-    <Compile Include="ViewModels\Middleware\ICompletable.cs" />
-    <Compile Include="ViewModels\Middleware\IoC.cs" />
-    <Compile Include="ViewModels\Middleware\IResources.cs" />
-    <Compile Include="ViewModels\Middleware\IWindowFactory.cs" />
-    <Compile Include="ViewModels\ObservableObject.cs" />
+    <Compile Include="Middleware\IResources.cs" />
+    <Compile Include="Middleware\IWindowFactory.cs" />
     <Compile Include="ViewModels\ObservableTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="SimplyMail.licenseheader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

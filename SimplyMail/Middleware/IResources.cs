@@ -1,5 +1,5 @@
 ﻿//
-// File: ICompletable.cs
+// File: IResources.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -22,10 +22,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplyMail.ViewModels.Middleware
+namespace SimplyMail.Middleware
 {
-    public interface ICompletable
+    public interface IResources
     {
-        void OnCompleted();
+        string InvalidCredentialsMessage { get; }
     }
 }

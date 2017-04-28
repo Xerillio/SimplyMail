@@ -16,7 +16,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
-using SimplyMail.ViewModels.Middleware;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,18 +26,10 @@ using System.Windows;
 
 namespace SimplyMail.ViewModels
 {
-    public class Main : ObservableObject
+    public class Main : ViewModelBase
     {
         static Main _currentInstance;
-        public static Main CurrentInstance
-        {
-            get
-            {
-                if (_currentInstance == null)
-                    _currentInstance = new Main();
-                return _currentInstance;
-            }
-        }
+        public static Main CurrentInstance => _currentInstance ?? (_currentInstance = new Main());
 
         private object _mainContent;
 
@@ -49,7 +41,7 @@ namespace SimplyMail.ViewModels
                 if (_mainContent == value)
                     return;
                 _mainContent = value;
-                OnPropertyChanged("MainContent");
+                RaisePropertyChanged();
             }
         }
 

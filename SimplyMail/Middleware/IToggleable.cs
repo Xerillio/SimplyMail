@@ -1,5 +1,5 @@
 ﻿//
-// File: IAsyncCommand.cs
+// File: IToggleable.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -21,12 +21,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
-namespace SimplyMail.ViewModels.Input
+namespace SimplyMail.Middleware
 {
-    public interface IAsyncCommand : ICommand
+    public interface IToggleable : IActivatable, IDeactivatable
     {
-        Task ExecuteAsync(object parameter);
     }
 }

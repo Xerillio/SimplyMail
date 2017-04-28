@@ -1,5 +1,5 @@
 ﻿//
-// File: IoC.cs
+// File: IWindowFactory.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -22,25 +22,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplyMail.ViewModels.Middleware
+namespace SimplyMail.Middleware
 {
-    public class IoC
+    public interface IWindowFactory
     {
-        private static IoC _instance;
-        public static IoC Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new IoC();
-                return _instance;
-            }
-        }
-
-        public IResources Resources { get; set; }
-        public IWindowFactory WindowFactory { get; set; }
-
-        IoC()
-        { }
+        IToggleable CreateWindow<T>(T dataContext);
     }
 }

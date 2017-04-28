@@ -16,10 +16,12 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using SimplyMail.Utils;
-using SimplyMail.ViewModels.Input;
 using SimplyMail.ViewModels.Mail;
-using SimplyMail.ViewModels.Middleware;
+using SimplyMail.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,7 +32,7 @@ using System.Windows.Input;
 
 namespace SimplyMail.ViewModels
 {
-    public class Home : ObservableObject
+    public class Home : ViewModelBase
     {
         ObservableCollection<MailAccount> _mailAccounts = new ObservableCollection<MailAccount>();
         public ObservableCollection<MailAccount> MailAccounts => _mailAccounts;
@@ -39,24 +41,32 @@ namespace SimplyMail.ViewModels
         public ObservableTask<ObservableCollection<MailMessage>> CurrentFolderMessagesTask
         {
             get { return _currentFolderMessagesTask; }
-            set { _currentFolderMessagesTask = value; OnPropertyChanged("CurrentFolderMessagesTask"); }
+            set { _currentFolderMessagesTask = value; RaisePropertyChanged(); }
         }
 
-        public ICommand AddAccountCommand => new CommandBase(OnAddAccount);
+        public ICommand AddAccountCommand => new RelayCommand(OnAddAccount);
 
         public Home()
         {
             MailFolder.FolderSelected += MailFolder_FolderSelected;
         }
 
-        private void OnAddAccount(object obj)
+        private void OnAddAccount()
         {
+            if (!SimpleIoc.Default.IsRegistered<IWindowFactory>())
+                return;
+
             var loginVm = new Login();
+            var window = SimpleIoc.Default.GetInstance<IWindowFactory>().CreateWindow(loginVm);
+            if (window == null)
+                return;
+
             loginVm.LoginSucceeded += (s, acc) =>
             {
+                window.Deactivate();
                 MailAccounts.Add(acc);
             };
-            IoC.Instance.WindowFactory?.CreateWindow(loginVm);
+            window.Activate();
         }
 
         private void MailFolder_FolderSelected(object sender, EventArgs e)

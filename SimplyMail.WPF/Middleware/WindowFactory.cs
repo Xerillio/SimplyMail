@@ -1,5 +1,5 @@
 ﻿//
-// File: IWindowFactory.cs
+// File: WindowFactory.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -16,16 +16,31 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+using SimplyMail.ViewModels;
+using SimplyMail.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using SimplyMail.WPF.Views;
 
-namespace SimplyMail.ViewModels.Middleware
+namespace SimplyMail.WPF.Middleware
 {
-    public interface IWindowFactory
+    class WindowFactory : IWindowFactory
     {
-        void CreateWindow<T>(T windowViewModel);
+        static WindowFactory _instance;
+        public static WindowFactory Instance => _instance ?? (_instance = new WindowFactory());
+
+        WindowFactory()
+        { }
+
+        public IToggleable CreateWindow<T>(T dataContext)
+        {
+            if (dataContext is Login)
+                return new PopupWindow() { DataContext = dataContext };
+            return null;
+        }
     }
 }

@@ -16,9 +16,11 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+using GalaSoft.MvvmLight;
 using MailKit;
 using MailKit.Search;
 using SimplyMail.Models;
+using SimplyMail.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,14 +32,14 @@ using System.Windows.Input;
 
 namespace SimplyMail.ViewModels.Mail
 {
-    public class MailFolder : ObservableObject
+    public class MailFolder : ViewModelBase
     {
         public static event EventHandler FolderSelected;
 
         static CancellationTokenSource _messagesTaskCts;
 
         IMailFolder _sourceFolder;
-        ImapService _service;
+        MailAccount _account;
         
         public ObservableTask<ObservableCollection<MailFolder>> SubFoldersTask { get; }
 
@@ -51,23 +53,23 @@ namespace SimplyMail.ViewModels.Mail
             {
                 _isSelected = value;
                 FolderSelected?.Invoke(this, new EventArgs());
-                OnPropertyChanged("IsSelected");
+                RaisePropertyChanged();
             }
         }
 
-        public MailFolder(IMailFolder folder, ImapService service)
+        public MailFolder(IMailFolder folder, MailAccount account)
         {
-            _sourceFolder = folder;
-            _service = service;
+            _sourceFolder = SafetyChecker.RequireArgumentNonNull(folder, "folder");
+            _account = SafetyChecker.RequireArgumentNonNull(account, "account");
             SubFoldersTask = new ObservableTask<ObservableCollection<MailFolder>>(GetSubFolders());
         }
 
         async Task<ObservableCollection<MailFolder>> GetSubFolders()
         {
             var foldersCol = new ObservableCollection<MailFolder>();
-            var folders = await _service.GetSubFolders(_sourceFolder).ConfigureAwait(false);
+            var folders = await _account.Service.GetSubFolders(_sourceFolder).ConfigureAwait(false);
             foreach (var folder in folders)
-                foldersCol.Add(new MailFolder(folder, _service));
+                foldersCol.Add(new MailFolder(folder, _account));
             return foldersCol;
         }
 
@@ -79,7 +81,7 @@ namespace SimplyMail.ViewModels.Mail
             using (_messagesTaskCts = new CancellationTokenSource())
             {
                 return new ObservableCollection<MailMessage>(
-                    (await _service.GetMessages(
+                    (await _account.Service.GetMessages(
                         _sourceFolder, SearchQuery.All, _messagesTaskCts.Token)
                         .ConfigureAwait(false))
                     .Select(mimeMsg => new MailMessage(mimeMsg)));

@@ -17,6 +17,7 @@
 //   limitations under the License.
 //
 using SimplyMail.Models;
+using SimplyMail.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,6 +30,7 @@ namespace SimplyMail.ViewModels.Mail
     public class MailAccount
     {
         ImapService _service;
+        internal ImapService Service => _service;
 
         public ObservableTask<ObservableCollection<MailFolder>> FoldersTask { get; }
         public string Email { get; }
@@ -36,7 +38,7 @@ namespace SimplyMail.ViewModels.Mail
         public MailAccount(string email, ImapService service)
         {
             Email = email;
-            _service = service;
+            _service = SafetyChecker.RequireArgumentNonNull(service, "service");
             FoldersTask = new ObservableTask<ObservableCollection<MailFolder>>(GetFolders());
         }
 
@@ -45,7 +47,7 @@ namespace SimplyMail.ViewModels.Mail
             var folderCol = new ObservableCollection<MailFolder>();
             var folders = await _service.GetFolders().ConfigureAwait(false);
             foreach (var folder in folders)
-                folderCol.Add(new MailFolder(folder, _service));
+                folderCol.Add(new MailFolder(folder, this));
             return folderCol;
         }
     }

@@ -16,8 +16,9 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
-using SimplyMail.WPF.Views;
-using SimplyMail.WPF.Views.Middleware;
+using GalaSoft.MvvmLight.Ioc;
+using SimplyMail.Middleware;
+using SimplyMail.WPF.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -37,10 +38,9 @@ namespace SimplyMail.WPF
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            
-            var ioc = ViewModels.Middleware.IoC.Instance;
-            ioc.Resources = SimplyMail.WPF.Resources.Instance;
-            ioc.WindowFactory = new WindowFactory();
+
+            SimpleIoc.Default.Register<IResources>(() => Middleware.Resources.Instance);
+            SimpleIoc.Default.Register<IWindowFactory>(() => WindowFactory.Instance);
         }
         
     }

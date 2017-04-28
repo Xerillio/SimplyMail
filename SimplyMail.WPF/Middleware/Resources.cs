@@ -1,5 +1,5 @@
 ﻿//
-// File: WindowFactory.cs
+// File: Resources.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -16,30 +16,25 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
-using SimplyMail.ViewModels;
-using SimplyMail.ViewModels.Middleware;
+using SimplyMail.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
-namespace SimplyMail.WPF.Views.Middleware
+namespace SimplyMail.WPF.Middleware
 {
-    class WindowFactory : IWindowFactory
+    class Resources : IResources
     {
-        public void CreateWindow<T>(T windowViewModel)
-        {
-            Window window = null;
-            if (windowViewModel is Login)
-                window = new PopupWindow();
+        private static Resources _instance;
+        public static Resources Instance => _instance ?? (_instance = new Resources());
 
-            if (window != null)
-            {
-                window.DataContext = windowViewModel;
-                window.ShowDialog();
-            }
-        }
+        public string InvalidCredentialsMessage =>
+            string.IsNullOrWhiteSpace(Properties.Resources.InvalidCredentialsMessage) ?
+            null : Properties.Resources.InvalidCredentialsMessage;
+
+        Resources()
+        { }
     }
 }

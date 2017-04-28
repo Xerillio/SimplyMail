@@ -21,8 +21,6 @@ using MailKit.Net.Imap;
 using MailKit.Search;
 using MailKit.Security;
 using MimeKit;
-using SimplyMail.Utils;
-using SimplyMail.Utils.Immutables;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿//
-// File: Error.cs
+// File: IActivatable.cs
 // Author: Casper Sørensen
 //
 //   Copyright 2017 Casper Sørensen
@@ -22,16 +22,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplyMail.Utils.Immutables
+namespace SimplyMail.Middleware
 {
-    class Error
+    public interface IActivatable
     {
-        string _message;
-        public string Message => _message;
-
-        public Error(string message)
-        {
-            _message = message;
-        }
+        void Activate();
     }
 }
